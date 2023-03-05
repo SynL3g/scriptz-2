@@ -1,18 +1,22 @@
---[[
-Note: This is Syn/Sw only.
-Instuctions: Open the executers output window and run this script After that run whatever script you're trying to analyse
--- > By Newtomic#7889
-TODO:
-Websocket logs.
-Return response requests.
-]]
 
-local blockpost = false -- if set to true this will block all post requests
-local reversehook = false -- this will reverse any hook attempts made on itsself and protected functions, also stops future cloning attempts.
 
-local savelogs = true -- if set to true this will log all http request sent to a file in your workspace folder
+-- > By Newtomic#7889 /LegHat
+-- Instuctions: Open the executers output window and run this script After that run whatever script you're trying to analyse
+-- Note: This is Syn/Sw only (i won't update this)
+-- This is mostly meant for just myself but if you do understand it feel free to tweek it.
+
+local blockpost = false
+local reversehook = false
+
+local discordproxy, url = false,-- i'm lazy                                            
+
+            "" -- enter Url
+
+
+local savelogs = true
 
 loadstring(game:HttpGet("https://gist.githubusercontent.com/AngryCat39/68aa677c65df093c2e8f84ebce712a09/raw/42a415067f2d0789be4307c45431ccd29ba25c68/gistfile1.txt"))()
+
 local cf = clonefunction;
 
 local requests = (syn or http).request;
@@ -48,6 +52,7 @@ end, function()
 end)
 
 if getgenv()._Executed then return wconsole("Already Executed") end
+if url == "" then discordproxy = false end;
 
 local pconsole = cf(consoles);
 local wconsole = cf(warnuiconsole or printconsole);
@@ -190,6 +195,7 @@ end
 
 local old; old = hookfunction(requests, function(req, ...)
     hook(req, ...)
+
     if blockpost == true then
         if req.Method then
             if find(req.Method, "POST") then
@@ -197,6 +203,15 @@ local old; old = hookfunction(requests, function(req, ...)
             end
         end
     end
+
+    if discordproxy then
+        if req.Url then
+            if find(req.Url, "discord") and find(req.Url, "webhooks") then
+                req.Url = url
+            end 
+        end 
+    end
+
     return old(req, ...)
 end)
 
