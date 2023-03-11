@@ -1,3 +1,4 @@
+
 -- Saves everything passed through loadstring to your workspace folder
 -- Note: this can lag pretty bad
 
@@ -15,7 +16,9 @@ end
 
 local old; old = hookfunction(loadstring, function(...)
 
-    writefile(Folder_Path.."/".."Log - "..string.gsub(tostring(math.random(1, 1e9) / os.time()), "[%s%p]", "")..".txt",
+    writefile(
+            
+    Folder_Path.."/".."Log - "..string.gsub(tostring(math.random(1, 1e9) / os.time()), "[%s%p]", "")..".txt",
 
     (...)
 )
