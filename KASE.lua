@@ -22,6 +22,7 @@ end
 
 lp.Character:FindFirstChildOfClass("Humanoid"):UnequipTools()
 while true do
+    courintine.wrap(function()
     print("Joining new server.")
     if httprequest then
         local servers = {}
@@ -40,27 +41,6 @@ while true do
             print("Couldn't find server {Retrying}")
         end
     end
-    wait(4)
-end
-while true do
-    print("Joining new server.")
-    wait(5)
-    if httprequest then
-        local servers = {}
-        local req = httprequest({Url = string.format("https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=Asc&limit=100", game.PlaceId)})
-        local body = HttpService:JSONDecode(req.Body)
-        if body and body.data then
-            for _, v in next, body.data do
-                if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.id ~= game.JobId then
-                    table.insert(servers, 1, v.id)
-                end 
-            end
-        end
-        if #servers > 0 then
-            TeleportService:TeleportToPlaceInstance(game.PlaceId, servers[math.random(1, #servers)], lp)
-        else
-            print("Couldn't find server {Retrying}")
-        end
-    end
+            end)()
     wait(4)
 end
