@@ -21,6 +21,9 @@ for _, v in next, lp.Backpack:GetChildren() do
 end
 
 lp.Character:FindFirstChildOfClass("Humanoid"):UnequipTools()
+
+courintine.wrap(function()
+ wait(5)
 while true do
     courintine.wrap(function()
     print("Joining new server.")
@@ -44,3 +47,4 @@ while true do
             end)()
     wait(4)
 end
+        end)()
